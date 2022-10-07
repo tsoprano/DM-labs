@@ -15,7 +15,7 @@ stopWordList = stopwords.words('english')
 txt_dict = {}
 all_words = []
 tf_dict = {}
-N = len(os.listdir(corpusroot))
+N = len(os.listdir(corpusroot)) #no. of debate txt files in the directory
 
 def preprocess(doc):
     doc = doc.lower()
@@ -44,7 +44,7 @@ def getidf(token):
     if df == 0:
         return -1
     return math.log10(N/df) 
-
+added
 
 print("health_idf = %.12f" % getidf("health"))
 print("agenda_idf = %.12f" % getidf("agenda"))
