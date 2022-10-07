@@ -60,15 +60,17 @@ def getweight_notNorm(filename,token):
     tf = tf_dict[filename][token]
     if tf>0:
         weighted_tf = 1 + math.log10(tf)
-        weight = weighted_tf * getidf(token)
+        weight = weighted_tf * getidf(token) #raw weight of terms
     return weight
 
 posting_list = {}
+
+#function to populate magnitude dictionary
 def get_magnitude(filename):
     print(filename)
     vec = []
     for term in set(txt_dict[filename]):
-        w = getweight_notNorm(filename,term)
+        w = getweight_notNorm(filename,term) 
         vec.append(w)
         lst = (filename, w)
         if term not in posting_list:
@@ -97,7 +99,7 @@ for word,v in posting_list.items():
     for doc_x in not_in_word:
         posting_list[word].append((doc_x,float(0)))
     posting_list[word].sort(key=lambda tup: tup[1], reverse=True)
-    posting_list[word] = posting_list[word][:10]
+    posting_list[word] = posting_list[word][:10] #include just the top 10 highest tf-idf weight for each term in the posting list
     temp_tuple_list = []
     for tup in posting_list[word]:
         temp_tuple_list.append((tup[0], tup[1]/magnitude_dict[tup[0]]))  #normalizing the posting list
@@ -108,9 +110,10 @@ def getweight(filename,token):
     tf = tf_dict[filename][token]
     if tf>0:
         magnitude = magnitude_dict[filename]
-        weight = getweight_notNorm(filename,token)/magnitude
+        weight = getweight_notNorm(filename,token)/magnitude  #normalized tf-idf weight of terms
     return weight
 
+#function to convert query text to normalized frequency vectors
 def queryVec(queryTerm):
     q = []
     stems_q = preprocess(queryTerm)
@@ -160,7 +163,7 @@ def query(queryTerm):
             df = []
             for q in queryTermVec:
                 if len([tup[1] for tup in temp_postList[q] if tup[0]==file])==0:
-                    df.append([[tup[1] for tup in temp_postList[q]][-1]])
+                    df.append([[tup[1] for tup in temp_postList[q]][-1]])  #if doc not in posting list, take the 10th highest tf-idf weight instead
                 else:
                     df.append([tup[1] for tup in temp_postList[q] if tup[0]==file])
             df = np.array(df).flatten()
