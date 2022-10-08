@@ -94,7 +94,7 @@ print("-------------------- \n")
 
 #including in the posting list all the docs that are not included in the term's list
 for word,v in posting_list.items():
-    doc_list = [tup[0][0] for tup in v]
+    doc_list = [tup[0] for tup in v]
     not_in_word = [i for i in all_files if i not in doc_list]
     for doc_x in not_in_word:
         posting_list[word].append((doc_x,float(0)))
@@ -104,6 +104,7 @@ for word,v in posting_list.items():
     for tup in posting_list[word]:
         temp_tuple_list.append((tup[0], tup[1]/magnitude_dict[tup[0]]))  #normalizing the posting list
     posting_list[word] = temp_tuple_list
+
 
 def getweight(filename,token):
     weight = 0
@@ -177,11 +178,22 @@ def query(queryTerm):
     
     return (fName, simVal)  
 
-
 print("health insurance wall street --> (%s, %.12f)" % query("health insurance wall street"))
 print("security conference ambassador --> (%s, %.12f)" % query("security conference ambassador"))
 print("particular constitutional amendment --> (%s, %.12f)" % query("particular constitutional amendment"))
 print("terror attack --> (%s, %.12f)" % query("terror attack"))
 print("vector entropy --> (%s, %.12f)" % query("vector entropy"))
-print("--- %s seconds to execute entire program ---" % (time.time() - start_time))
+
+print("\n---Extra queries----")
+print("american people --> (%s, %.12f)" % query("american people"))
+print("corruption in bureaucracy --> (%s, %.12f)" % query("corruption in bureaucracy"))
+print("delayed justice --> (%s, %.12f)" % query("delayed justice"))
+print("illegal aliens --> (%s, %.12f)" % query("illegal aliens"))
+print("job opportunities --> (%s, %.12f)" % query("job opportunities"))
+print("drug addiction --> (%s, %.12f)" % query("drug addiction"))
+print("safe neighborhood --> (%s, %.12f)" % query("safe neighborhood"))
+print("gun policy --> (%s, %.12f)" % query("gun policy"))
+print("abortion --> (%s, %.12f)" % query("abortion"))
+
+print("\n--- %s seconds to execute entire program ---" % (time.time() - start_time))
 print("-------------------- \n")
